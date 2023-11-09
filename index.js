@@ -7,6 +7,7 @@ const configs = new PogObject("MonkeyFilter", {
     apiKey: "",
     minCata: 0,
     minClass: 0, // class level
+    minLevel: 0, // skyblock level
     minSecrets: 0,
     minSecretsPerRun: 0,
     minCombat: 0, // combat skill level
