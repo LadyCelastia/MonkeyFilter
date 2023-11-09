@@ -1,0 +1,17 @@
+{
+    "apiKey": "69420",
+    "minCata": 0,
+    "minClass": 0,
+    "minSecrets": 0,
+    "minSecretsPerRun": 0,
+    "minCombat": 0,
+    "minMP": 0,
+    "minPB": null,
+    "needHype": false,
+    "needTerm": false,
+    "needDrag": "None",
+    "needIceSpray": false,
+    "needLastBreath": false,
+    "needEffX": false,
+    "noDupe": false
+}

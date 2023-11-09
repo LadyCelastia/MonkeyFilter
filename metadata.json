@@ -1,0 +1,8 @@
+{
+  "name": "MonkeyFilter",
+  "author": "EmilySalads",
+  "creator": "EmilySalads",
+  "description": "Improving your monkey finder experience",
+  "entry": "index.js",
+  "version": "1.0.0"
+}
