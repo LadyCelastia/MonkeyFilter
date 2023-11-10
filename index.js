@@ -47,7 +47,7 @@ register("command", (...args) => {
             ChatLib.chat(`Minimum secrets per run is currently set to ${YELLOW}` + configs.minSecretsPerRun);
             ChatLib.chat(`Minimum combat level is currently set to ${YELLOW}` + configs.minCombat);
             ChatLib.chat(`Minimum magical power is currently set to ${YELLOW}` + configs.minMP);
-            ChatLib.chat(`Minimum personal best is currently set to ${YELLOW}` + (configs.minPB === null ? "" : configs.minPB) + ` seconds.`);
+            ChatLib.chat(`Minimum personal best is currently set to ${YELLOW}` + (configs.minPB === null ? "infinite" : configs.minPB) + ` seconds.`);
             ChatLib.chat(`Wither Impact required is currently ` + (configs.needHype === true ? `${GREEN}true` : `${RED}false`));
             ChatLib.chat(`Terminator required is currently ` + (configs.needTerm === true ? `${GREEN}true` : `${RED}false`));
             ChatLib.chat(`Ice Spray required is currently ` + (configs.needIceSpray === true ? `${GREEN}true` : `${RED}false`));
@@ -169,7 +169,7 @@ register("command", (...args) => {
             break;
         case "pb":
             if (command.length == 1) {
-                concatChat(`Minimum personal best is currently set to ${YELLOW}` + (configs.minPB === null ? "" : configs.minPB) + " seconds.");
+                concatChat(`Minimum personal best is currently set to ${YELLOW}` + (configs.minPB === null ? "infinite" : configs.minPB) + " seconds.");
             } else if (!isNaN(command[1]) && !isNaN(parseFloat(command[1]) && parseInt(command[1]) >= 0)) {
                 configs.minPB = parseInt(command[1]);
                 configs.save();
@@ -322,7 +322,7 @@ function concatChat(string) {
 
 function getPlayerUUID(username) {
     let response = URLFetchApp.fetch('https://api.mojang.com/users/profiles/minecraft/' + username);
-    if (response.getResponseCode() != "200"){
+    if (response.getResponseCode() != "200") {
         console.log("Failed to fetch the UUID of " + username);
     } else {
         let response_parsed = JSON.parse(response.getContentText());
