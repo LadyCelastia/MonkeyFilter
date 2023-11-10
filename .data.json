@@ -7,7 +7,7 @@
     "minSecretsPerRun": 8,
     "minCombat": 60,
     "minMP": 1000,
-    "minPB": 420,
+    "minPB": 8.312043483104073e+248,
     "needHype": false,
     "needTerm": true,
     "needDrag": "gdrag",
@@ -15,5 +15,6 @@
     "needLastBreath": false,
     "needEffX": true,
     "noDupe": false,
-    "kick": true
+    "kick": true,
+    "kickAPIOff": true
 }

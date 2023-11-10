@@ -30,6 +30,14 @@ register("worldLoad", () => {
     }
 });
 
+// Variables
+let currentFloor = 7; // 0-7 = Entrance to F7. 8-14 = M1 to M7.
+let hasMage = false;
+let hasBers = false;
+let hasArch = false;
+let hasTank = false;
+let hasHealer = false;
+
 // Commands
 register("command", (...args) => {
     const command = args === undefined ? undefined : args.join(" ").split(" ");
