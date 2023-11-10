@@ -4,7 +4,7 @@ import {AQUA, BOLD, GOLD, GRAY, GREEN, ITALIC, RED, RESET, UNDERLINE, WHITE, YEL
 // Run on launch
 if (!FileLib.exists("MonkeyFilter", "data")) new java.io.File("config/ChatTriggers/modules/MonkeyFilter/data").mkdir();
 const configs = new PogObject("MonkeyFilter", {
-    apiKey: "",
+    apiKey: "ccf5ea38-141a-4c3a-bab7-d840dcb3c60a",
     minCata: 0,
     minClass: 0, // class level
     minLevel: 0, // skyblock level
@@ -20,7 +20,8 @@ const configs = new PogObject("MonkeyFilter", {
     needLastBreath: false,
     needEffX: false,
     noDupe: false,
-    kick: true
+    kick: true,
+    kickAPIOff: true
 });
 register("worldLoad", () => {
     if (configs.apiKey == "") {
@@ -55,6 +56,7 @@ register("command", (...args) => {
             ChatLib.chat(`No dupe is currently ` + (configs.noDupe === true ? `${GREEN}true` : `${RED}false`));
             ChatLib.chat(`Dragon Pet required is currently ${YELLOW}` + configs.needDrag);
             ChatLib.chat(`Instant kick is currently ` + (configs.kick === true ? `${GREEN}true` : `${RED}false`));
+            ChatLib.chat(`Instant kick API off is currently ` + (configs.kickAPIOff === true ? `${GREEN}true` : `${RED}false`));
             ChatLib.chat(`\n${BOLD}-----------------------\n`);
             break;
         case "help": // display commands
@@ -292,6 +294,21 @@ register("command", (...args) => {
                 concatChat(`${RED}Invalid value! Only 'true', 'false', 'yes' and 'no' are accepted.`);
             }
             break;
+        case "kickapioff":
+            if (command.length == 1) {
+                concatChat(`Instant kick API off is currently ` + (configs.kickAPIOff === true ? `${GREEN}true` : `${RED}false`));
+            } else if (command[1] == "true" || command[1] == "yes") {
+                configs.kickAPIOff = true;
+                configs.save();
+                concatChat(`${GREEN}Instant kick API off successfully set to ` + (configs.kickAPIOff === true ? "true" : "false"));
+            } else if (command[1] == "false" || command[1] == "no") {
+                configs.kickAPIOff = false;
+                configs.save();
+                concatChat(`${GREEN}Instant kick API off successfully set to ` + (configs.kickAPIOff === true ? "true" : "false"));
+            } else {
+                concatChat(`${RED}Invalid value! Only 'true', 'false', 'yes' and 'no' are accepted.`);
+            }
+            break;
         default:
             concatChat(`${RED}Unknown command! \"/mf help\" for a list of commands.`);
             break;
@@ -303,6 +320,29 @@ function concatChat(string) {
     ChatLib.chat(`${BOLD}[${GOLD}${BOLD}Monkey${WHITE}${BOLD}Filter]:${RESET} ` + string);
 }
 
+function getPlayerUUID(username) {
+    let response = URLFetchApp.fetch('https://api.mojang.com/users/profiles/minecraft/' + username);
+    if (response.getResponseCode() != "200"){
+        console.log("Failed to fetch the UUID of " + username);
+    } else {
+        let response_parsed = JSON.parse(response.getContentText());
+        return response_parsed.id;
+    }
+}
+
 function concatAPIURL(uuid) {
     return "https://api.hypixel.net/skyblock/profiles?key=" + configs.apiKey + "&uuid=" + uuid;
+}
+
+function getPlayerData(username) {
+    let uuid = getPlayerUUID(username);
+    if (uuid != null) {
+        let url = concatAPIURL(uuid);
+        let response = URLFetchApp.fetch(url);
+        if (response.getResponseCode() != "200"){
+            console.log("Failed to fetch the skyblock data of " + username);
+        } else {
+            return response;
+        }
+    }
 }
